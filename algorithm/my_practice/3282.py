@@ -34,38 +34,36 @@
 출력
 #1 6
 """
-def DFS(n):
-    global max_value
-    global N
-    global V
-    global tmp
-    global K
+def knapsack(i, w):
+    if value[i][w] != -1:
+        return value[i][w]
+    if i == 0 or w == 0:
+        value[i][w] = 0
+        return value[i][w]
 
-    V += m[n][0]
-    tmp += m[n][1]
-    visited[n] = 1
-    for i in range(N):
-        if V + m[i][0] <= K and not visited[i]:
-            DFS(i)
-            visited[i] = 0
-            V -= m[i][0]
-            tmp -= m[i][1]
+    a = 0
+    if w - v[i] >= 0:
+        a = knapsack(i - 1, w - v[i]) + c[i]
+    b = knapsack(i - 1, w)
+    value[i][w] = max(a, b)
+    return value[i][w]
 
-    if max_value < tmp:
-        max_value = tmp
 
 for tc in range(1, int(input())+1):
     N, K = map(int, input().split())
-    m = [0] * N
-    for i in range(N):
-        m[i] = list(map(int, input().split()))
-
-    max_value = 0
-    for i in range(N):
-        visited = [0] * N
-        V = 0
-        tmp = 0
-        if m[i][0] <= K:
-            DFS(i)
+    v = [0] * (N + 1)
+    c = [0] * (N + 1)
+    for i in range(1, N + 1):
+        x, y = map(int, input().split())
+        v[i] = x
+        c[i] = y
+    # 부피는 v[i] 가치는 c[i] 0 <= i <= N
+    value = [[-1] * (K + 1) for _ in range(N + 1)]
+    a = 0
+    if K - v[N] >= 0:
+        a = knapsack(N - 1, K - v[N]) + c[N]
+    b = knapsack(N - 1, K)
+    value[N][K] = max(a, b)
+    max_value = value[N][K]
 
     print(f"#{tc} {max_value}")
