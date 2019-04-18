@@ -8,7 +8,7 @@ for tc in range(1, int(input())+1):
     visited[x][y] = 1
     count = 0
     if (x, y) == (lastx, lasty):
-        print(f"#{tc} {count}")
+        print("#{} {}".format(tc, count))
         continue
 
     for i in range(8):
@@ -24,4 +24,4 @@ for tc in range(1, int(input())+1):
             if 0 <= x + dx[i] < N and 0 <= y + dy[i] < N and not visited[x + dx[i]][y + dy[i]]:
                 visited[x + dx[i]][y + dy[i]] = 1
                 queue.append((x + dx[i], y + dy[i], count + 1))
-    print(f"#{tc} {count}")
+    print("#{} {}".format(tc, count))
